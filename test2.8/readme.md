@@ -25,11 +25,11 @@ git reset --hard HEAD^:  回退到上一个版本
     HEAD^^: 回退到上上一个版本
     HEAD~n: 回退到往前第n个版本
 git reset --hard <commit id>: 恢复为指定版本，版本号不必写完
-git checkout -- <file>: 旧命令，撤销文件在工作区的修改，让文件回到最近一次git commit或git add时的状态
+git checkout -- <file>: 撤销文件在工作区的修改，让文件回到最近一次git commit或git add时的状态
     e.g.git checkout -- readme.md
 git restore <file>:撤销文件在工作区的修改
     e.g.git restore readme.md
-git reset HEAD <file>: 旧命令，把暂存区的修改撤销掉
+git reset HEAD <file>: 把暂存区的修改撤销掉
     e.g.git reset HEAD readme.md
 git restore --staged <file>: 把暂存区的修改撤销掉
     e.g.git reset HEAD readme.md
