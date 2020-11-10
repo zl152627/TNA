@@ -123,8 +123,7 @@ class Function_run(object):
                 time.sleep(0.5)
             self.select_run()
         elif select_num == 0:
-            driver.close()
-            print("exited\npress 'ctrl+c' to close the window")
+            driver.quit()
             exit()
         else:
             print("input a number from 0 to 7")
@@ -340,8 +339,8 @@ class Setup_Center(object):
         time.sleep(1)
 
     def user_add(self):
-        #driver.get(http://192.168.110.1:8092/#/main/index)
-        driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > a > .submenu-title-noDropdown").click()
+        driver.get("http://192.168.110.1:8092/#/main/index")
+        #driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > a > .submenu-title-noDropdown").click()
         time.sleep(1)
         #add user zl
         driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
@@ -799,7 +798,7 @@ class Reset_devices(object):
         driver.find_element(By.CSS_SELECTOR, ".el-input__inner").click()
         driver.find_element(By.CSS_SELECTOR, ".el-input__inner").send_keys("RESET")
         driver.find_element(By.CSS_SELECTOR, ".el-input__inner").send_keys(Keys.ENTER)
-        time.sleep(3)
+        time.sleep(2)
 
     def web_open_BOX(self):
         driver.get("http://www.a.com/")
@@ -916,7 +915,7 @@ class Easy_test(object):
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
         time.sleep(1)
-        
+   
     def center_set(self):
         driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
         time.sleep(1)
@@ -929,10 +928,24 @@ class Easy_test(object):
         driver.find_element(By.CSS_SELECTOR, ".right").click()
         driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
         time.sleep(5)
-        driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close").click()
-        
+        net_set_finish = driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close")
+        if net_set_finish:
+            net_set_finish.click()
+        else:
+            driver.find_element(By.CSS_SELECTOR, ".el-button--small:nth-child(1) > span").click()
+            #driver.find_element(By.CSS_SELECTOR, ".el-message-box__close").click()
+        time.sleep(1)
+        driver.get("http://192.168.110.1:8092/#/main/index")
+        time.sleep(1)
+        driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
+        time.sleep(1)
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("1")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(5) .el-input__inner").send_keys("TNA-test@tna.cn")
+        driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > .el-button--primary > span").click()
+        time.sleep(1)
+
     def route_check(self):
-        pyautogui.alert('设置输入法为英文后点击「确定」')
         os.startfile('C:\putty.exe')
         time.sleep(0.5)
         pyautogui.typewrite('192.168.110.1')
@@ -953,11 +966,69 @@ class Easy_test(object):
         pyautogui.typewrite('ip addr show dev enp1s0')
         pyautogui.press('enter')
         time.sleep(1)
-        pyautogui.alert('若网址信息无误且LED1闪烁则点击「确定」')
+        pyautogui.alert('若网址信息无误且设备LED灯闪烁正常则点击「确定」')
         time.sleep(1)
         pyautogui.typewrite('exit')
         pyautogui.press('enter')
         time.sleep(1)
+
+    def reset_BOX(self):
+        driver.get("http://www.a.com/")
+        driver.maximize_window()
+        time.sleep(1)
+        
+        pyautogui.moveTo(30, 150, 1)
+        pyautogui.click()
+        pyautogui.moveTo(30, 270, 1)
+        pyautogui.click()
+        pyautogui.moveTo(888, 380, 1)
+        pyautogui.click()
+        pyautogui.typewrite('7758521')
+        pyautogui.moveTo(1030, 440, 1)
+        pyautogui.click()
+        time.sleep(2)
+        
+        os.startfile('C:\putty.exe')
+        time.sleep(0.5)
+        pyautogui.typewrite('192.168.231.193')
+        pyautogui.press('tab', 2)
+        pyautogui.press('left', 2)
+        pyautogui.press('enter')
+        time.sleep(1)
+        pyautogui.typewrite('root')
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        pyautogui.typewrite('admin12345')
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        pyautogui.typewrite('reboot')
+        pyautogui.press('enter')
+        time.sleep(0.5)
+        pyautogui.typewrite('exit')
+        pyautogui.press('enter')
+        time.sleep(1)
+
+    def set_BOX(self):
+        driver.get("http://www.a.com/")
+        driver.maximize_window()
+        time.sleep(1)
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(4) .el-input__inner").send_keys("123456")
+        driver.find_element(By.CSS_SELECTOR, "#login > span").click()
+        time.sleep(1)
+        driver.find_element(By.CSS_SELECTOR, ".next > span").click()
+        time.sleep(1)
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("笛卡尔盾测试")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("1")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
+        pyautogui.press('enter')
+        time.sleep(6)#init step2 finished
+        pyautogui.moveTo(1111, 720, 1)
+        pyautogui.click()
+        time.sleep(6)#init step3 finished
+        pyautogui.moveTo(950, 650, 1)
+        pyautogui.click()#close alert of closing pc-WIFI
+        time.sleep(2)
 
     def center_reset(self):
         driver.get("http://192.168.110.1/#/advanced/index")
@@ -970,12 +1041,15 @@ class Easy_test(object):
         time.sleep(1)
 
     def easy_test_run(self):
+        pyautogui.alert('设置输入法为美式键盘并将BOX连接有线后接入电脑')
         self.web_open_LAN2()
         self.center_set()
-        driver.minimize_window()
         self.route_check()
-        driver.maximize_window()
+        #self.reset_BOX()
+        #time.sleep(18)
+        self.set_BOX()
         self.center_reset()
+        self.reset_BOX()
         driver.minimize_window()
         
 fun = Function_run()
