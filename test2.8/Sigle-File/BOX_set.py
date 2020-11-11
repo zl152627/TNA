@@ -6,18 +6,23 @@ way to install selenium: run "pip install selenium" in cmd after installing pyth
 way to install pyautogui: run "pip install pyautogui" in cmd after installing python
 '''
 import os
+import time
 import pyautogui
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-	
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 def web_open_BOX():
     driver.get("http://www.a.com/")
     driver.maximize_window()
     time.sleep(1)
     
 def BOX_set():
-    driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
+    element_BOX_init_Login = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner")))
+    element_BOX_init_Login.send_keys("123456")
+    #driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
     driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(4) .el-input__inner").send_keys("123456")
     driver.find_element(By.CSS_SELECTOR, "#login > span").click()
     time.sleep(1)
@@ -28,13 +33,14 @@ def BOX_set():
     driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
     pyautogui.press('enter')
     time.sleep(1)#init step2 finished
-    pyautogui.moveTo(1111, 780, 1)
+    pyautogui.moveTo(1111, 720, 1)
     pyautogui.click()
-    driver.implicitly_wait(3)#init step3 finished
-    pyautogui.moveTo(960, 840, 1)
+    time.sleep(5)#init step3 finished
+    pyautogui.moveTo(950, 650, 1)
     pyautogui.click()#close alert of closing pc-WIFI
+    pyautogui.click(950, 700)
    
 driver = webdriver.Edge() 
-driver.implicitly_wait(5)
+time.sleep(5)
 web_open_BOX()
 BOX_set()

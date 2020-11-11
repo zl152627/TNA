@@ -15,12 +15,14 @@ import pyautogui
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-pyautogui.FAILSAFE = True
+pyautogui.FAILSAFE = True #mouse poiter at (0,0) to stop
 driver = webdriver.Edge()
 driver.minimize_window()
-driver.implicitly_wait(8) 
-       
+driver.implicitly_wait(3)
+
 class Function_run(object):
     def __init__(self):
         self.CenterSet = Setup_Center()
@@ -32,6 +34,7 @@ class Function_run(object):
         self.Reset = Reset_devices()
         self.StandbySet = Setup_standby()
         self.Easytest = Easy_test()
+        
     def select_run(self):
         os.system("cls")
         print('''
@@ -123,6 +126,7 @@ class Function_run(object):
                 time.sleep(0.5)
             self.select_run()
         elif select_num == 0:
+            print("exiting...")
             driver.quit()
             exit()
         else:
@@ -179,10 +183,30 @@ class Setup_Center(object):
         time.sleep(1)
         #-------add Center-Route-------
         pyautogui.press('F5')
-        time.sleep(1)
         driver.find_element(By.CSS_SELECTOR, ".el-button:nth-child(1) .op > use").click()
         driver.find_element(By.CSS_SELECTOR, ".is-required .el-input__inner").send_keys("Center-Route")
         driver.find_element(By.CSS_SELECTOR, ".box-item > .el-input__inner").send_keys("192.168.101.101:8092")
+        time.sleep(0.5)
+        driver.find_element(By.CSS_SELECTOR, ".box:nth-child(2) .el-input-group__prepend .el-input__inner").click()
+        pyautogui.press('down', 3)
+        pyautogui.press('enter')#全通
+        driver.find_element(By.CSS_SELECTOR, ".el-dialog__footer:nth-child(3) .el-button--primary").click()
+        time.sleep(1)
+        #-------add Resource-Node-------
+        pyautogui.press('F5')
+        driver.find_element(By.CSS_SELECTOR, ".el-button:nth-child(1) .op > use").click()
+        driver.find_element(By.CSS_SELECTOR, ".is-required .el-input__inner").send_keys("R-Node-C")
+        driver.find_element(By.CSS_SELECTOR, ".box-item > .el-input__inner").send_keys("10.10.10.1:8092")
+        time.sleep(0.5)
+        driver.find_element(By.CSS_SELECTOR, ".box:nth-child(2) .el-input-group__prepend .el-input__inner").click()
+        pyautogui.press('down', 3)
+        pyautogui.press('enter')#全通
+        driver.find_element(By.CSS_SELECTOR, ".el-dialog__footer:nth-child(3) .el-button--primary").click()
+        time.sleep(1)
+        pyautogui.press('F5')
+        driver.find_element(By.CSS_SELECTOR, ".el-button:nth-child(1) .op > use").click()
+        driver.find_element(By.CSS_SELECTOR, ".is-required .el-input__inner").send_keys("U-Node-C")
+        driver.find_element(By.CSS_SELECTOR, ".box-item > .el-input__inner").send_keys("10.10.20.1:8092")
         time.sleep(0.5)
         driver.find_element(By.CSS_SELECTOR, ".box:nth-child(2) .el-input-group__prepend .el-input__inner").click()
         pyautogui.press('down', 3)
@@ -247,16 +271,13 @@ class Setup_Center(object):
         time.sleep(0.5)
         driver.find_element(By.CSS_SELECTOR, ".app-name").click()#添加资源
         time.sleep(0.5)
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(1) > .el-checkbox__label").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(2) > .el-checkbox__label").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(3) > .el-checkbox__label").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(4) > .el-checkbox__label").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(5) > .el-checkbox__label").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(6) > .el-checkbox__label").click()
-        pyautogui.moveTo(1288, 484, 1)
-        pyautogui.click()
-        #driver.find_element(By.CSS_SELECTOR, ".el-dialog__footer:nth-child(2) .el-button--primary > span").click()
-        #error：selenium.common.exceptions.ElementNotInteractableException: Message: element not interactable
+        for resource_num in range(1,11):
+            try:
+                driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(%d) > .el-checkbox__label" %resource_num).click()
+            except:
+                pyautogui.press('tab', 2)
+                pyautogui.press('enter')
+                break
         time.sleep(1)
         
     def resource_add_Resource(self):
@@ -345,19 +366,18 @@ class Setup_Center(object):
         #add user zl
         driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
         time.sleep(1)
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("zl")
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("zl")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("1")
+        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(4) .el-input__inner").send_keys("15010821222")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(5) .el-input__inner").send_keys("zhanglei@tna.cn")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(6) .el-input__inner").send_keys("昆仑-华夏")
         #add resources
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(1) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(2) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(3) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(4) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(5) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(6) .el-checkbox__inner").click()
-        driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > .el-button--primary > span").click()#确定
+        for resource_num in range(1,11):
+            try:
+                driver.find_element(By.CSS_SELECTOR, ".el-checkbox:nth-child(%d) .el-checkbox__inner" %resource_num).click()
+            except:
+                driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > .el-button--primary > span").click()#确定
+                break
         time.sleep(1)
         #add more box resources
         driver.find_element(By.CSS_SELECTOR, ".icon-add-offline").click()
@@ -403,7 +423,9 @@ class Setup_BOX(object):
         time.sleep(1)
         
     def BOX_set(self):
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
+        element_BOX_init_Login = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner")))
+        element_BOX_init_Login.send_keys("123456")
+        #driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(4) .el-input__inner").send_keys("123456")
         driver.find_element(By.CSS_SELECTOR, "#login > span").click()
         pyautogui.alert('BOX 连接有线或WIFI后点击「确定」')
@@ -430,7 +452,7 @@ class Setup_BOX(object):
         driver.minimize_window()
         print("BOX set finsihed")
         time.sleep(1)
-        
+
 class Setup_Node(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/")
@@ -626,7 +648,7 @@ class Add_resources_example(object):
             self.web_open_LAN1()
         else:
             self.choice_way()
-    
+
     def resource_add_Center_TCP(self, center_name, center_net):
         pyautogui.press('F5')
         time.sleep(1)
@@ -786,6 +808,7 @@ class Reset_devices(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/#/advanced/index")
         driver.maximize_window()
+        pyautogui.press('F5')
         #driver.set_window_size(1366, 768)
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
@@ -803,6 +826,7 @@ class Reset_devices(object):
     def web_open_BOX(self):
         driver.get("http://www.a.com/")
         driver.maximize_window()
+        pyautogui.press('F5')
         #driver.set_window_size(1366, 768)
         time.sleep(2)
 
@@ -831,14 +855,14 @@ class Reset_devices(object):
             self.web_open_LAN2()
             self.gateway_reset()
         elif way_choice_num == 0:
-            print("exiting reset devices...")
+            print("exiting reset-devices...")
             time.sleep(0.5)
         else:
             self.way_choice()
         driver.minimize_window()
         print("device reset finished")
         time.sleep(1)
-            
+
 class Setup_standby(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/")
@@ -911,6 +935,7 @@ class Easy_test(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/")
         driver.maximize_window()
+        pyautogui.press('F5')
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
@@ -972,22 +997,7 @@ class Easy_test(object):
         pyautogui.press('enter')
         time.sleep(1)
 
-    def reset_BOX(self):
-        driver.get("http://www.a.com/")
-        driver.maximize_window()
-        time.sleep(1)
-        
-        pyautogui.moveTo(30, 150, 1)
-        pyautogui.click()
-        pyautogui.moveTo(30, 270, 1)
-        pyautogui.click()
-        pyautogui.moveTo(888, 380, 1)
-        pyautogui.click()
-        pyautogui.typewrite('7758521')
-        pyautogui.moveTo(1030, 440, 1)
-        pyautogui.click()
-        time.sleep(2)
-        
+    def reboot_BOX(self):
         os.startfile('C:\putty.exe')
         time.sleep(0.5)
         pyautogui.typewrite('192.168.231.193')
@@ -1008,11 +1018,30 @@ class Easy_test(object):
         pyautogui.press('enter')
         time.sleep(1)
 
+    def reset_BOX(self):
+        driver.get("http://www.a.com/")
+        driver.maximize_window()
+        pyautogui.press('F5')
+        time.sleep(1)
+        
+        pyautogui.moveTo(30, 150, 1)
+        pyautogui.click()
+        pyautogui.moveTo(30, 270, 1)
+        pyautogui.click()
+        pyautogui.moveTo(888, 380, 1)
+        pyautogui.click()
+        pyautogui.typewrite('16349527')
+        pyautogui.moveTo(1030, 440, 1)
+        pyautogui.click()
+        time.sleep(2)
+
     def set_BOX(self):
         driver.get("http://www.a.com/")
         driver.maximize_window()
         time.sleep(1)
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
+        element_BOX_init_Login = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner")))
+        element_BOX_init_Login.send_keys("123456")
+        #driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("123456")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(4) .el-input__inner").send_keys("123456")
         driver.find_element(By.CSS_SELECTOR, "#login > span").click()
         time.sleep(1)
@@ -1045,12 +1074,12 @@ class Easy_test(object):
         self.web_open_LAN2()
         self.center_set()
         self.route_check()
-        #self.reset_BOX()
-        #time.sleep(18)
+        self.reset_BOX()
+        self.reboot_BOX()
         self.set_BOX()
         self.center_reset()
         self.reset_BOX()
         driver.minimize_window()
-        
+
 fun = Function_run()
 fun.select_run()
