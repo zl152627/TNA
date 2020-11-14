@@ -1,4 +1,4 @@
------ preparing to run python file -----
+- - - - - preparing to run python file - - - - -
 all files needed is in test2.8/Prepare-Tool/
 file massage: created at 2020.11.03 by zhanglei@tna.cn
 funtion: test TNA-devices-v2.7+
@@ -9,8 +9,11 @@ version: demo version v0.1, just finish a little easy functions with very easy p
 prepare WebDriver:
     MicrosoftWebDriver.exe为Micosoft-Edge-85.0.564.68 (官方内部版本，64位，基于 Chromium开源项目及其他开源软件)原生驱动
     该驱动为Selenium相关Python脚本使用Edge自动化测试的前提，存放在Python安装目录下：C:\User\[用户名]\AppData\Local\Programs\Python\Python38-32\
-
------ git easy use -----
+prepare Software:
+    C:\PuTTy.exe
+    C:\iperf3\iperf3.exe
+    
+- - - - - git easy use - - - - -
 git init:初始化仓库 
 git add <file>
     添加文件（到工作区）
@@ -32,9 +35,9 @@ git reset --hard HEAD^:回退到上一个版本
     HEAD~n:回退到往前第n个版本
 git reset --hard <commit id>
     恢复为指定版本，版本号不必写完
------ Git 划分 -----
+- - - - - Git 划分 - - - - - - - - - - - - - 
 工作区 - git add <file> - 暂存区 - git commit -m "..." - 库 
---------------------
+- - - - - - - - - - - - - - - - - - - - - - - 
 git checkout -- <file>
     撤销文件在工作区的修改，让文件回到最近一次git commit或git add时的状态
     e.g.git checkout -- readme.md
