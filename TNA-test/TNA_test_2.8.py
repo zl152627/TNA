@@ -129,13 +129,20 @@ class Setup_Center(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/")
         driver.maximize_window()
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        except:
+            pass
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
         time.sleep(1)
 
     def mode_choice_center(self):
-        driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        except:
+            pass
         time.sleep(1)
 
     def center_net_set(self):
@@ -885,19 +892,35 @@ class Reset_devices(object):
         pyautogui.moveTo(1030, 440, 1)
         pyautogui.click()
         '''
-        #pyautogui.hotkey('shift', 'tab', 2)
-        #pyautogui.press('enter')
-        driver.find_element(By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set").click()
-        time.sleep(0.5)
-        pyautogui.press('down', 3)
-        pyautogui.press('enter')
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
-        pyautogui.press('tab', 2)
-        pyautogui.press('enter')
-        time.sleep(2)
+        try:
+            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set"))).click()
+            time.sleep(0.2)
+            pyautogui.press('down', 3)
+            pyautogui.press('enter')
+            driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
+            pyautogui.press('tab', 2)
+            pyautogui.press('enter')
+            time.sleep(1)
+        except:
+            try:
+                WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--mini > span"))).click()
+            except:
+                pass
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".right-menu:nth-child(3) .user-avatar"))).click()
+            time.sleep(0.5)
+            pyautogui.press('down')
+            pyautogui.press('enter')
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set"))).click()
+            time.sleep(0.5)
+            pyautogui.press('down', 3)
+            pyautogui.press('enter')
+            driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
+            pyautogui.press('tab', 2)
+            pyautogui.press('enter')
+            time.sleep(2)
 
     def way_choice(self):
-        way_choice_input = input("choice 1 or 2:\n1: reset BOX\n2: reset Gateway\n0:exit\n>")
+        way_choice_input = input("choice 1 or 2:\n1: reset BOX\n2: reset Gateway\n0:back\n>")
         if way_choice_input.isdigit():
             way_choice_num = int(way_choice_input)
         else:
@@ -909,8 +932,7 @@ class Reset_devices(object):
             self.web_open_LAN2()
             self.gateway_reset()
         elif way_choice_num == 0:
-            print("exiting reset-devices...")
-            time.sleep(0.5)
+            print("backing...")
         else:
             self.way_choice()
         driver.minimize_window()
@@ -961,21 +983,27 @@ class Setup_standby(object):
         time.sleep(1)
     
     def standby_set_run(self):
-        way_devices_input = input("select devices\n1.center\n2.resource-node\n3.user-node\n>")
+        way_devices_input = input("select devices\n1.center\n2.resource-node\n3.user-node\n0.back\n>")
         time.sleep(1)
-        if way_devices_input.isdigit() and 1 <= int(way_devices_input) <= 3:
+        if way_devices_input.isdigit() and 0 <= int(way_devices_input) <= 3:
             way_devices_num = int(way_devices_input)
         else:
             self.standby_set_run()
             
-        pyautogui.alert('注意是否只有一台空白设备')
-        self.web_open_LAN2()
         if way_devices_num == 1:
+            pyautogui.alert('注意是否只有一台空白设备')
+            self.web_open_LAN2()
             self.center_standby()
         elif way_devices_num == 2:
+            pyautogui.alert('注意是否只有一台空白设备')
+            self.web_open_LAN2()
             self.resource_node_standby()
         elif way_devices_num == 3:
+            pyautogui.alert('注意是否只有一台空白设备')
+            self.web_open_LAN2()
             self.user_node_standby()
+        elif way_devices_num == 0:
+            print("backing...")
         else:
             self.standby_set_run()
         driver.minimize_window()
@@ -987,13 +1015,20 @@ class Easy_test(object):
         driver.get("http://192.168.110.1/")
         driver.maximize_window()
         pyautogui.press('F5')
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        except:
+            pass
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
         time.sleep(1)
    
     def center_set(self):
-        driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
+        except:
+            pass
         time.sleep(1)
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("cartesianshield")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("192.168.3.205/24")
@@ -1075,15 +1110,32 @@ class Easy_test(object):
         pyautogui.press('F5')
         time.sleep(1)
         pyautogui.click(100, 5)
-        
-        driver.find_element(By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set").click()
-        time.sleep(0.5)
-        pyautogui.press('down', 3)
-        pyautogui.press('enter')
-        driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
-        pyautogui.press('tab', 2)
-        pyautogui.press('enter')
-        time.sleep(2)
+        try:#try to test if BOX Login
+            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set"))).click()
+            time.sleep(0.1)
+            pyautogui.press('down', 3)
+            pyautogui.press('enter')
+            driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
+            pyautogui.press('tab', 2)
+            pyautogui.press('enter')
+            time.sleep(1)
+        except:
+            try:
+                WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--mini > span"))).click()
+            except:
+                pass
+            WebDriverWait(driver, 5, 1).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".right-menu:nth-child(3) .user-avatar"))).click()
+            time.sleep(0.3)
+            pyautogui.press('down')
+            pyautogui.press('enter')
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dropdown:nth-child(1) .set"))).click()
+            time.sleep(0.3)
+            pyautogui.press('down', 3)
+            pyautogui.press('enter')
+            driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
+            pyautogui.press('tab', 2)
+            pyautogui.press('enter')
+            time.sleep(2)
 
     def set_BOX(self):
         try:
@@ -1108,7 +1160,7 @@ class Easy_test(object):
         pyautogui.press('enter')
         element_BOX_init_Login = WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".success-btn"))).click()
         element_BOX_init_Login = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--mini > span"))).click()
-        time.sleep(1)#init step3 finished
+        time.sleep(2)#init step3 finished
 
     def center_reset(self):
         driver.get("http://192.168.110.1/#/advanced/index")
@@ -1121,13 +1173,17 @@ class Easy_test(object):
         time.sleep(1)
 
     def easy_test_run(self):
+        reset_BOX_choice_input = input("input y if need to reset BOX first:")
         pyautogui.alert('1.设置输入法为美式键盘\n2.将BOX连接有线后接入电脑\n3设备WAN口连接路由器')
         self.web_open_LAN2()
         self.center_set()
         self.route_check()
-        self.reset_BOX()
-        self.reboot_BOX()
-        time.sleep(12)
+        if reset_BOX_choice_input == "y":
+            self.reset_BOX()
+            self.reboot_BOX()
+            time.sleep(14)
+        else:
+            pass
         self.set_BOX()
         self.center_reset()
         self.reset_BOX()
