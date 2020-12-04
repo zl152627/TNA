@@ -163,6 +163,7 @@ class Setup_Center(object):
             pyautogui.press('tab', 2)
             pyautogui.press('enter')
             pyautogui.alert(text = "检查连线和网络", title = "配置失败", button = "继续运行")
+            #driver.find_element(By.CSS_SELECTOR, ".el-message-box__headerbtn .el-message-box__close").click()
         time.sleep(1)
 
     def resource_add_Center(self):
@@ -900,6 +901,8 @@ class Reset_devices(object):
             driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
             pyautogui.press('tab', 2)
             pyautogui.press('enter')
+            time.sleep(0.5)
+            pyautogui.press('F5')
             time.sleep(1)
         except:
             try:
@@ -1039,12 +1042,17 @@ class Easy_test(object):
         driver.find_element(By.CSS_SELECTOR, ".right").click()
         driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
         time.sleep(5)
-        net_set_finish = driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close")
-        if net_set_finish:
-            net_set_finish.click()
-        else:
-            driver.find_element(By.CSS_SELECTOR, ".el-button--small:nth-child(1) > span").click()
-            #driver.find_element(By.CSS_SELECTOR, ".el-message-box__close").click()
+        try:
+            #WebDriverWait(driver, 12, 1).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close"))).click()
+            #弹窗一直存在于页面，只是被隐藏，显示等待不可用!
+            time.sleep(5)
+            driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close").click()
+        except:
+            pyautogui.press('tab', 2)
+            pyautogui.press('enter')
+            pyautogui.alert(text = "检查连线和网络", title = "配置失败", button = "继续运行")
+            #driver.find_element(By.CSS_SELECTOR, ".el-message-box__headerbtn .el-message-box__close").click()
+        time.sleep(1)
         time.sleep(1)
         driver.get("http://192.168.110.1:8092/#/main/index")
         time.sleep(1)
@@ -1118,6 +1126,8 @@ class Easy_test(object):
             driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
             pyautogui.press('tab', 2)
             pyautogui.press('enter')
+            time.sleep(0.5)
+            pyautogui.press('F5')
             time.sleep(1)
         except:
             try:
@@ -1136,6 +1146,7 @@ class Easy_test(object):
             pyautogui.press('tab', 2)
             pyautogui.press('enter')
             time.sleep(2)
+            
 
     def set_BOX(self):
         try:
