@@ -136,14 +136,14 @@ class Setup_Center(object):
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(0.5)
 
     def mode_choice_center(self):
         try:
             driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
         except:
             pass
-        time.sleep(1)
+        time.sleep(0.5)
 
     def center_net_set(self):
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("北京笛卡尔盾科技有限公司")
@@ -157,7 +157,7 @@ class Setup_Center(object):
         try:
             #WebDriverWait(driver, 12, 1).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close"))).click()
             #弹窗一直存在于页面，只是被隐藏，显示等待不可用!
-            time.sleep(4)
+            time.sleep(5)
             driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close").click()
         except:
             pyautogui.press('tab', 2)
@@ -920,7 +920,24 @@ class Reset_devices(object):
             driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("16349527")
             pyautogui.press('tab', 2)
             pyautogui.press('enter')
-            time.sleep(2)
+            time.sleep(1)
+            #BOX reboot
+            os.startfile('C:\putty.exe')
+            time.sleep(0.5)
+            pyautogui.typewrite('192.168.231.193')
+            pyautogui.press('tab', 2)
+            pyautogui.press('left', 2)
+            pyautogui.press('enter')
+            time.sleep(1)
+            pyautogui.typewrite('root')
+            pyautogui.press('enter')
+            time.sleep(0.5)
+            pyautogui.typewrite('admin12345')
+            pyautogui.press('enter')
+            time.sleep(0.5)
+            pyautogui.typewrite('reboot')
+            pyautogui.press('enter')
+            time.sleep(0.5)
 
     def way_choice(self):
         way_choice_input = input("choice 1 or 2:\n1: reset BOX\n2: reset Gateway\n0:back\n>")
@@ -1025,14 +1042,13 @@ class Easy_test(object):
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(0.5)
    
     def center_set(self):
         try:
             driver.find_element(By.CSS_SELECTOR, ".admin > .img").click()
         except:
             pass
-        time.sleep(1)
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(1) .el-input__inner").send_keys("cartesianshield")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("192.168.3.205/24")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("192.168.3.1")
@@ -1045,7 +1061,6 @@ class Easy_test(object):
         try:
             #WebDriverWait(driver, 12, 1).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close"))).click()
             #弹窗一直存在于页面，只是被隐藏，显示等待不可用!
-            time.sleep(5)
             driver.find_element(By.CSS_SELECTOR, ".el-dialog__wrapper:nth-child(5) .el-dialog__close").click()
         except:
             pyautogui.press('tab', 2)
@@ -1055,8 +1070,9 @@ class Easy_test(object):
         time.sleep(1)
         time.sleep(1)
         driver.get("http://192.168.110.1:8092/#/main/index")
-        time.sleep(1)
-        driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
+        #time.sleep(1)
+        WebDriverWait(driver, 12, 1).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span"))).click()
+        #driver.find_element(By.CSS_SELECTOR, ".el-button--default:nth-child(2) > span").click()
         time.sleep(1)
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys("1")
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
@@ -1108,9 +1124,6 @@ class Easy_test(object):
         pyautogui.typewrite('reboot')
         pyautogui.press('enter')
         time.sleep(0.5)
-        pyautogui.typewrite('exit')
-        pyautogui.press('enter')
-        time.sleep(1)
 
     def reset_BOX(self):
         driver.get("http://www.a.com/")
@@ -1149,11 +1162,7 @@ class Easy_test(object):
             
 
     def set_BOX(self):
-        try:
-            driver.get("http://www.a.com/")
-        except:
-            time.sleep(3)
-            driver.get("http://www.a.com/")
+        driver.get("http://www.a.com/")
         driver.maximize_window()
         time.sleep(1)
         pyautogui.click(100, 5)
@@ -1170,7 +1179,10 @@ class Easy_test(object):
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys("1")
         pyautogui.press('enter')
         element_BOX_init_Login = WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".success-btn"))).click()
-        element_BOX_init_Login = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--mini > span"))).click()
+        try:    
+            element_BOX_init_Login = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".el-button--mini > span"))).click()
+        except:
+            pass
         time.sleep(2)#init step3 finished
 
     def center_reset(self):
@@ -1184,20 +1196,29 @@ class Easy_test(object):
         time.sleep(1)
 
     def easy_test_run(self):
-        reset_BOX_choice_input = input("input y if need to reset BOX first:")
-        pyautogui.alert('1.设置输入法为美式键盘\n2.将BOX连接有线后接入电脑\n3设备WAN口连接路由器')
-        self.web_open_LAN2()
-        self.center_set()
-        self.route_check()
-        if reset_BOX_choice_input == "y":
+        test_ifnot_BOX_input = input("input y if donnot need to test with box: ")
+        if test_ifnot_BOX_input == "y":
+            pyautogui.alert('1.设置输入法为美式键盘\n2.设备WAN口连接路由器')
+            self.web_open_LAN2()
+            self.center_set()
+            self.route_check()
+            self.center_reset()
+        else:
+            reset_BOX_choice_input = input("input y if need to reset BOX first: ")
+            pyautogui.alert('1.设置输入法为美式键盘\n2.将BOX连接有线后接入电脑\n3设备WAN口连接路由器')
+            self.web_open_LAN2()
+            self.center_set()
+            self.route_check()
+            if reset_BOX_choice_input == "y":
+                self.reset_BOX()
+                self.reboot_BOX()
+                time.sleep(18)
+            else:
+                pass
+            self.set_BOX()
+            self.center_reset()
             self.reset_BOX()
             self.reboot_BOX()
-            time.sleep(14)
-        else:
-            pass
-        self.set_BOX()
-        self.center_reset()
-        self.reset_BOX()
         driver.minimize_window()
 
 class Function_speedtest(object):
@@ -2251,7 +2272,7 @@ class r2r(object):
 
 os.system("cls")
 print(r'''-----运行要求-----
-    1.需在本电脑安装python3，默认路径即可
+    1.需在本电脑安装python3，默认路径即可,注意设置环境变量
     2.安装python后依次在命令行窗口执行：
         pip install selenium
         pip install pyautogui
