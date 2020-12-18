@@ -662,8 +662,6 @@ class Add_resources_example(object):
         except:
             pass
         time.sleep(1)
-        driver.find_element(By.CSS_SELECTOR, "div:nth-child(3) > a > .submenu-title-noDropdown > span").click()
-        time.sleep(1)
     def web_open_LAN1(self):
         driver.get("http://192.168.100.234:8092/#/policy/index")
         driver.maximize_window()
@@ -736,7 +734,7 @@ class Add_resources_example(object):
         driver.find_element(By.CSS_SELECTOR, ".el-dialog__footer:nth-child(3) .el-button--primary").click()
         time.sleep(1)
 
-    def resource_add_Node_UDP(resource_name, resource_net):
+    def resource_add_Node_UDP(self, resource_name, resource_net):
         pyautogui.press('F5')
         time.sleep(1)
         driver.find_element(By.CSS_SELECTOR, ".el-button:nth-child(1) .op > use").click()
@@ -833,6 +831,7 @@ class Add_users_example(object):
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(2) .el-input__inner").send_keys(code)
         driver.find_element(By.CSS_SELECTOR, ".el-form-item:nth-child(3) .el-input__inner").send_keys(name)
         driver.find_element(By.CSS_SELECTOR, "div:nth-child(2) > .el-button--primary > span").click()#确定
+        time.sleep(0.5)
         
     def user_add_example_run(self):
         dict_user = {
