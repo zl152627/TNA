@@ -483,12 +483,19 @@ class Setup_Node(object):
     def web_open_LAN2(self):
         driver.get("http://192.168.110.1/")
         driver.maximize_window()
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".gateway > .img").click()
+        except:
+            pass
         driver.find_element(By.NAME, "username").send_keys("admin")
         driver.find_element(By.NAME, "password").send_keys("123456")
         driver.find_element(By.NAME, "password").send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(0.5)
     def mode_choice_node(self):
-        driver.find_element(By.CSS_SELECTOR, ".gateway > .img").click()
+        try:
+            driver.find_element(By.CSS_SELECTOR, ".gateway > .img").click()
+        except:
+            pass
         time.sleep(1)
 
     def Node_Resource_set(self, outer_net, inner_net, innner_gateway):
@@ -1224,10 +1231,10 @@ class Function_speedtest(object):
     def __init__(self):
         self.fun_b2c = b2c()
         self.fun_b2r = b2r()
-        self.fun_b2c = u2c()
-        self.fun_b2r = u2r()
-        self.fun_b2c = r2c()
-        self.fun_b2r = r2r()
+        self.fun_u2c = u2c()
+        self.fun_u2r = u2r()
+        self.fun_r2c = r2c()
+        self.fun_r2r = r2r()
     
     def select_run(self):
         os.system("cls")
